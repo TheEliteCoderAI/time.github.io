@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Automatic UTC-5 Clock</title>
+<style>
+  /* Reset and base styles */
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+  }
+
+  body {
+    height: 100vh;
+    max-height: 600px;
+    max-width: 350px;
+    margin: auto;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .clock-container {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 2rem 3rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+  }
+
+  .clock {
+    font-size: 5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin: 0;
+  }
+  
+  .timezone {
+    margin-top: 1rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    opacity: 0.8;
+  }
+
+  /* Responsive */
+  @media (max-width: 400px) {
+    .clock {
+      font-size: 4rem;
+    }
+    .clock-container {
+      padding: 1.5rem 2rem;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="clock-container" role="timer" aria-live="polite" aria-atomic="true">
+  <p class="clock" id="time">--:--:--</p>
+  <p class="timezone">Current Time (UTC-5)</p>
+</div>
+
+<script>
+  function updateTimeUTCMinus5() {
+    // Get current time in UTC
+    const now = new Date();
+
+    // Calculate UTC-5 offset time
+    // Using getTime() returns milliseconds since epoch (UTC)
+    const utcMinus5Time = new Date(now.getTime() - (5 * 60 * 60 * 1000));
+
+    // Format the time as HH:MM:SS
+    function pad(num) {
+      return num.toString().padStart(2, '0');
+    }
+
+    const hours = pad(utcMinus5Time.getUTCHours());
+    const minutes = pad(utcMinus5Time.getUTCMinutes());
+    const seconds = pad(utcMinus5Time.getUTCSeconds());
+
+    const formattedTime = `${hours}:${minutes}:${seconds}`;
+
+    // Display the formatted time
+    document.getElementById('time').textContent = formattedTime;
+  }
+
+  // Initial call
+  updateTimeUTCMinus5();
+
+  // Update every second
+  setInterval(updateTimeUTCMinus5, 1000);
+</script>
+</body>
+</html>
